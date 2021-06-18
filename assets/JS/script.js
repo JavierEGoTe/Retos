@@ -11,6 +11,7 @@ var total200 = 200 * numero200;
 var total100 = 100 * numero100;
 var total50 = 50 * numero50;
 var totalEfectivo;
+var billetesentregados = 0;
 
 function comprobacion(retiro){
 console.log(retiro);
@@ -29,11 +30,11 @@ function billetes(retiro){
     total200 = 200 * numero200;
     total100 = 100 * numero100;
     total50 = 50 * numero50;
-    let billetes1000 =0;
-    let billetes500 = 0;
-    let billetes200 = 0;
-    let billetes100 = 0;
-    let billetes50 =0;
+    var billetes1000 =0;
+    var billetes500 = 0;
+    var billetes200 = 0;
+    var billetes100 = 0;
+    var billetes50 =0;
     cantidad = retiro;
     while(cantidad != 0){
     if(cantidad >= 1000 & numero1000 != 0){
@@ -73,7 +74,7 @@ function billetes(retiro){
         if (cantidad > total100){
             billetes100 = numero100;
         }
-        cantidad = cantidad - (billetes200*100);
+        cantidad = cantidad - (billetes100*100);
         numero100 = numero100 - billetes100;
     }
     if(cantidad >= 50 & numero50 != 0){
@@ -86,23 +87,96 @@ function billetes(retiro){
         cantidad = cantidad - (billetes50*50);
         numero50 = numero50 - billetes50;
     }}
-    document.getElementById("mil").innerHTML = `<p>${billetes1000} billetes de 1000</p>`;
-    document.getElementById("quinientos").innerHTML = `<p>${billetes500} billetes de 500</p>`;
+    if(billetes1000 != 0){
+        document.getElementById("mil").innerHTML = `<p>${billetes1000} billetes de 1000</p>`;
+    }
+    if(billetes1000 == 0){
+        document.getElementById("mil").innerHTML = `<p></p>`;
+    }
+    if(billetes500 != 0){
+        document.getElementById("quinientos").innerHTML = `<p>${billetes500} billetes de 500</p>`;
+    }
+    if(billetes500 == 0){
+        document.getElementById("quinientos").innerHTML = `<p></p>`;
+    }
+    if(billetes200 != 0){
     document.getElementById("doscientos").innerHTML = `<p>${billetes200} billetes de 200</p>`;
+    }
+    if(billetes200 == 0){
+        document.getElementById("doscientos").innerHTML = `<p></p>`;
+    }
+    if(billetes100 != 0){
     document.getElementById("cien").innerHTML = `<p>${billetes100} billetes de 100</p>`;
+    }
+    if(billetes100 == 0){
+        document.getElementById("cien").innerHTML = `<p></p>`;
+    }
+    if(billetes50 != 0){
     document.getElementById("cincuenta").innerHTML = `<p>${billetes50} billetes de 50</p>`;
-
+    }
+    if(billetes50 == 0){
+        document.getElementById("cincuenta").innerHTML = `<p></p>`;
+    }
+    billetesentregados = billetes50 + billetes100 + billetes200 + billetes500 + billetes1000;;
     console.log(billetes50,billetes100,billetes200,billetes500,billetes1000);
-    
-    return (billetes1000,billetes500,billetes200,billetes100,billetes50);
+    imagenes(billetes1000,billetes500,billetes200,billetes100,billetes50);    
 }
 
-function imagenes(){
-    const image = document.createElement('img');
-image.src  = 'assets/Images/billete50'
-document.querySelector('.billetes').appendChild(image)
+function imagenes(n1000,n500,n200,n100,n50){
+    for(i=0;i<n1000;i++){
+        const image = document.createElement('img');
+        image.setAttribute("src","assets/Images/billete1000.jpg");
+        image.width = 224;
+        image.height = 126;
+        var cont = document.getElementById("billetes");
+        cont.appendChild(image);
+    }
+    for(i=0;i<n500;i++){
+        const image = document.createElement('img');
+        image.setAttribute("src","assets/Images/billete500.jpg");
+        image.width = 224;
+        var cont = document.getElementById("billetes");
+        cont.appendChild(image);
+    }
+    for(i=0;i<n200;i++){
+        const image = document.createElement('img');
+        image.setAttribute("src","assets/Images/billete200.jpg");
+        image.width = 224;
+        image.height = 126;
+        var cont = document.getElementById("billetes");
+        cont.appendChild(image);
+    }
+    for(i=0;i<n100;i++){
+        const image = document.createElement('img');
+        image.setAttribute("src","assets/Images/billete100.jpg");
+        image.width = 224;
+        image.height = 126;
+        var cont = document.getElementById("billetes");
+        cont.appendChild(image);
+    }
+    for(i=0;i<n50;i++){
+        const image = document.createElement('img');
+        image.setAttribute("src","assets/Images/billete50.png");
+        image.width = 224;
+        image.height = 126;
+        var cont = document.getElementById("billetes");
+        cont.appendChild(image);
+    }
 }
 
+function borrar(){
+    for (i=1;i <= billetesentregados;i++){
+    let cont = document.getElementById("billetes");
+    let hijo = cont.firstChild;
+    cont.removeChild(hijo);
+    }
+    document.getElementById("retiro").value= "0";
+    document.getElementById("mil").innerHTML = `<p></p>`;
+    document.getElementById("quinientos").innerHTML = `<p></p>`;
+    document.getElementById("doscientos").innerHTML = `<p></p>`;
+    document.getElementById("cien").innerHTML = `<p></p>`;
+    document.getElementById("cincuenta").innerHTML = `<p></p>`;
+}
 
 function main(){
 
@@ -131,5 +205,5 @@ function main(){
                 billetes(inputValue);
             }
         }
-       //imagenes();
+       imagenes();
 }
